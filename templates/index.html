@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: black;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: black;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        .button:hover {
+            background-color: #333;
+        }
+
+        .button.delete {
+            background-color: red;
+        }
+
+        .button.delete:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Student List</h1>
+</header>
+
+<div style="text-align: center;">
+    <a href="/addstudent" class="button">Add New Student</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>USN</th>
+            <th>Age</th>
+            <th>Phone Number</th>
+            <th>Department</th>
+            <th>College</th>
+            <th>Grade</th>
+            <th>Email</th>
+            <th>DOB</th>
+            <th>Permanent Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.usn }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.phone_number }}</td>
+            <td>{{ student.department }}</td>
+            <td>{{ student.college }}</td>
+            <td>{{ student.grade }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.dob }}</td>
+            <td>{{ student.permanent_address }}</td>
+            <td>
+                <a href="/editstudent/{{ student.usn }}" class="button">Edit</a>
+                <a href="/delete_student/{{ student.usn }}" class="button delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
