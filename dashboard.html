@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Amazon Top 50 Books</title>
+    <!-- Include FontAwesome for cart icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #232f3e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+        header .logo h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        header .nav {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        header .nav a {
+            text-decoration: none;
+            color: white;
+        }
+        header .nav a:hover {
+            text-decoration: underline;
+        }
+        header .cart {
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+        }
+        header .cart i {
+            font-size: 24px;
+            color: white; /* Ensure icon is white */
+        }
+        header .cart .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            border-radius: 50%;
+            padding: 5px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+        }
+        .main {
+            padding: 100px 20px 20px; /* Space for fixed header */
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .search-bar button {
+            padding: 10px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #005bb5;
+        }
+        .book-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .book-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .book-card button {
+            margin-top: 10px;
+            padding: 8px 10px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .book-card button:hover {
+            background-color: #005bb5;
+        }
+        .book-card button i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <!-- Replace '/static/logo.png' with your actual logo image URL -->
+            <img src="/static/logo1.jpg" alt="Logo">
+            <h1>Amazon Top 50 Books</h1>
+        </div>
+       <div class="nav">
+            <a href="/logout">Logout</a>
+            <!-- Cart Icon with count -->
+            <div class="cart" onclick="viewCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+  </div>
+       </div>
+    </header>
+
+    <div class="main">
+        <div class="search-bar">
+            <input type="text" placeholder="Search books..." id="searchInput">
+            <button onclick="searchBooks()">Search</button>
+        </div>
+        <h1>Welcome to Your Dashboard</h1>
+        <p>Browse or upload new books below!</p>
+
+        <!-- Book List -->
+        <div class="book-list" id="bookList">
+            <div class="book-card">
+                <img src="/static/book1.jpg" alt="Book 1">
+                <p><strong>Book Title 1</strong></p>
+                <p>$19.99</p>
+                <!-- Cart Icon on the left of Add to Cart button -->
+                <button onclick="addToCart('Book Title 1')">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+            </div>
+            <div class="book-card">
+                <img src="/static/book2.jpg" alt="Book 2">
+                <p><strong>Book Title 2</strong></p>
+                <p>$24.99</p>
+                <!-- Cart Icon on the left of Add to Cart button -->
+                <button onclick="addToCart('Book Title 2')">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+            </div>
+            <!-- Additional book cards here -->
+        </div>
+    </div>
+
+    <script>
+        let cartCount = 0;
+
+        function searchBooks() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const books = document.querySelectorAll('.book-card');
+            books.forEach(book => {
+                const title = book.querySelector('p strong').innerText.toLowerCase();
+                if (title.includes(searchQuery)) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+
+        function addToCart(bookTitle) {
+            cartCount++;
+            document.getElementById('cartCount').innerText = cartCount;
+            alert(`"${bookTitle}" added to your cart!`);
+        }
+
+        function viewCart() {
+            alert("Viewing cart");
+            // You can implement cart page redirection or show a cart modal here
+        }
+    </script>
+</body>
+</html>
